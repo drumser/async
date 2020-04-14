@@ -25,7 +25,7 @@ class PoolTest extends TestCase
 
         $supported = Pool::isSupported();
 
-        $this->anotherPhpBinary = __DIR__ . '/another-php-binary';
+        $this->anotherPhpBinary = __DIR__.'/another-php-binary';
         symlink(PHP_BINARY, $this->anotherPhpBinary);
 
         if (! $supported) {
@@ -267,13 +267,11 @@ class PoolTest extends TestCase
         $this->assertEquals(2, $results[0]);
     }
 
-
     /** @test */
     public function it_can_run_with_another_binary_invokable_classes()
     {
         $pool = Pool::create()
-            ->withBinary($this->anotherPhpBinary)
-        ;
+            ->withBinary($this->anotherPhpBinary);
 
         $pool->add(new InvokableClass());
 
