@@ -214,6 +214,18 @@ class PoolTest extends TestCase
     }
 
     /** @test */
+    public function it_can_work_with_tasks_and_another_binary()
+    {
+        $pool = Pool::create();
+
+        $pool[] = async(new MyTask(), '/usr/bin/php74');
+
+        $results = await($pool);
+
+        $this->assertEquals(2, $results[0]);
+    }
+
+    /** @test */
     public function it_can_accept_tasks_with_pool_add()
     {
         $pool = Pool::create();
@@ -235,6 +247,21 @@ class PoolTest extends TestCase
     public function it_can_run_invokable_classes()
     {
         $pool = Pool::create();
+
+        $pool->add(new InvokableClass());
+
+        $results = await($pool);
+
+        $this->assertEquals(2, $results[0]);
+    }
+
+
+    /** @test */
+    public function it_can_run_with_another_binary_invokable_classes()
+    {
+        $pool = Pool::create()
+            ->withBinary('/usr/bin/php74')
+        ;
 
         $pool->add(new InvokableClass());
 
