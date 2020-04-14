@@ -16,17 +16,28 @@ class PoolTest extends TestCase
     /** @var \Symfony\Component\Stopwatch\Stopwatch */
     protected $stopwatch;
 
+    private $anotherPhpBinary;
+
     protected function setUp()
     {
         parent::setUp();
 
         $supported = Pool::isSupported();
 
+        $this->anotherPhpBinary = __DIR__ . '/another-php-binary';
+        symlink(PHP_BINARY, $this->anotherPhpBinary);
+
         if (! $supported) {
             $this->markTestSkipped('Extensions `posix` and `pcntl` not supported.');
         }
 
         $this->stopwatch = new Stopwatch();
+    }
+
+    protected function tearDown()
+    {
+        parent::tearDown();
+        unlink($this->anotherPhpBinary);
     }
 
     /** @test */
@@ -218,7 +229,7 @@ class PoolTest extends TestCase
     {
         $pool = Pool::create();
 
-        $pool[] = async(new MyTask(), '/usr/bin/php74');
+        $pool[] = async(new MyTask(), $this->anotherPhpBinary);
 
         $results = await($pool);
 
@@ -260,7 +271,7 @@ class PoolTest extends TestCase
     public function it_can_run_with_another_binary_invokable_classes()
     {
         $pool = Pool::create()
-            ->withBinary('/usr/bin/php74')
+            ->withBinary($this->anotherPhpBinary)
         ;
 
         $pool->add(new InvokableClass());
