@@ -4,9 +4,9 @@ dist: bionic
 
 php:
   - 7.1
-  - 7.2
-  - 7.3
-  - 7.4
+#  - 7.2
+#  - 7.3
+#  - 7.4
 
 env:
   matrix:
@@ -16,7 +16,7 @@ env:
 install:
   - travis_retry composer update ${COMPOSER_FLAGS}
 before_script:
-  - sudo ln -s /usr/bin/php /usr/bin/php74
+  - sudo ln -s $(which php) /usr/bin/php74
 
 script:
   - vendor/bin/phpunit
