@@ -16,6 +16,7 @@ class PoolTest extends TestCase
     /** @var \Symfony\Component\Stopwatch\Stopwatch */
     protected $stopwatch;
 
+    /** @var string */
     private $anotherPhpBinary;
 
     protected function setUp()
