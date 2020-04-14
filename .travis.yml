@@ -16,7 +16,7 @@ env:
 install:
   - travis_retry composer update ${COMPOSER_FLAGS}
 before_script:
-  - ln -s /usr/bin/php /usr/bin/php74
+  - sudo ln -s /usr/bin/php /usr/bin/php74
 
 script:
   - vendor/bin/phpunit
